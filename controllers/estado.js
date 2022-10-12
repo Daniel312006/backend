@@ -9,10 +9,9 @@ const createEstado = async (req = request,
             const nombre = (req.body.nombre)
             ? req.body.nombre.toUpperCase()
             : '';
-
-            const estadoBD = await Estado.findOne({ nombre })
-            if(estadoBD){
-                return res.status(400).json({msg: 'Ya este nombre existe'})
+            const estadoDB = await Estado.findOne({ nombre })
+            if(estadoDB) {
+                return res.status(400).json({msg: 'Ya existe el nombre'})
             }
             const datos = {
                 nombre

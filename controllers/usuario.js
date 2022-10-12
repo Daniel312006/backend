@@ -78,21 +78,22 @@ const deleteUsuarioByID = async (req = request,
     res = response) => {
     try{
         const id = req.params.id
+
         const usuarioBD = await Usuario.findById(id)
         if(!usuarioBD){
-            return res.status(400).json({msj: 'No existe el usuario'})
+            return res.status(400).json({msg: 'No existe el usuario'})
         }
-        await Usuario.findByidAndDelete(id)
-        return res.status(204).json({msj: 'Usuario borrado'})
-    }catch(e){
-        return res.status(500).json({msj: e})
+        await Usuario.findByIdAndDelete(id)
+        return res.status(204).json({msg: 'Usuario borrado'})
+    }catch(e){ 
+        return res.status(500).json({e})
     }
 }
 
-    module.exports = {
-        createUsuario,
-        getUsuarios,
-        getUsuarioByID,
-        updateUsuarioByID,
-        deleteUsuarioByID
-    }
+module.exports = {
+    createUsuario,
+    getUsuarios,
+    getUsuarioByID,
+    updateUsuarioByID,
+    deleteUsuarioByID
+}
