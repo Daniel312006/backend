@@ -1,47 +1,34 @@
+// inicializando la aplicacion
 const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
-const app = express(); // en esta linea se crea la instancia de express
-const cors = require('cors')
-const fileUpload = require('express-fileupload')
+// importando rutas
+const estadoRoute = require('./routes/estadoRoute');
+const marcaRoute = require('./routes/marcaRoute');
+const tipoRoute = require('./routes/tipoRoute');
+const usuarioRoute = require('./routes/usuarioRoute');
+const inventarioRoute = require('./routes/inventarioRoute');
 
-/**
- * importación de las rutas
- */
-const tipoEquipo = require('./routes/tipoEquipo')
-const estado = require('./routes/estado')
-const marca = require('./routes/marca')
-const usuario = require('./routes/usuario')
-const inventario = require('./routes/inventario')
-
-/**
- * middlewares: Es un software que se sitúa entre un sistema operativo y las aplicacionesque se
- * ejecutan en él. Básicamente, funciona como una capa de traducción oculta para permitir la 
- * comunicación y la administración de datos en aplicaciones distribuidas. 
- */
-app.use(express.urlencoded({extended: false}))
-app.use(express.json())
-app.use(fileUpload({
-    useTempFiles: true,
-    tempFileDir: '/temp/'
-}))
-
+// middlewares
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cors({
-    origin: '*'
-}))
+  origin: '*'
+}));
 
-/**
- * Utilizar los sustantivos en plural para una URI
- */
-app.use('/api/tipoequipos', tipoEquipo)
-app.use('/api/estados', estado)
-app.use('/api/marcas', marca)
-app.use('/api/usuarios', usuario)
-app.use('/api/inventarios', inventario)
+// rutas api
+app.use('/api/estados', estadoRoute);
+app.use('/api/marcas', marcaRoute);
+app.use('/api/tipos', tipoRoute);
+app.use('/api/usuarios', usuarioRoute);
+app.use('/api/inventarios', inventarioRoute);
 
-app.get("*", (req, res) => {
-    return res.status(404).json({
-        msg: 'Página no encontrada'
-    });
-});
+// 404
+app.use((req, res, next) => {
+  res.status(404).send('404 not found');
+})
 
+// exportando la aplicacion
 module.exports = app;

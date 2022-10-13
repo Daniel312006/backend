@@ -1,37 +1,15 @@
-//const express = require('express');
-const app = require('./app')
-const { mongoConn } = require('./databases/configuration')
-const dotenv = require('dotenv').config()
+const app = require("./app");
+const dotenv = require("dotenv").config()
+const { dbConnection } = require("./database/conexion");
 
-app.set('port', process.env.PORT || 4000)
+// inicializando el servidor
+const PORT = process.env.PORT || 4000;
 
-const conn = mongoConn()
+app.set("port", PORT)
 
 app.listen(app.get('port'), () => {
+    console.log(`Servdor en el puerto ${'http://localhost:' + PORT}`)
+  })
 
-    console.log(`Servidor arrancó por puerto ${app.get('port')}`);
-
-});
-
-/*const tipoEquipos = [
-    {
-        nombre: 'Cómputo',
-        estado: true,
-        fechaCreacion: new Date(),
-        fechaActualizacion: new Date()
-    },
-    {
-        nombre: 'Móvil',
-        estado: false,
-        fechaCreacion: new Date(),
-        fechaActualizacion: new Date()
-    }
-]*/
-
-/*app.get('/tipoequipos', (reu, res) => {
-    return res.json(tipoEquipos);
-});
-
-app.listen(3000, () => {
-    console.log('Servidor arrancó por el puerto 3000');
-});*/
+// inicializando la base de datos
+const conn = dbConnection();
